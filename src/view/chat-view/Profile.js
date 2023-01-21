@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Avatar } from "antd";
-import { AvatarName } from "../../helpers/AvatarName";
-import axios from "axios";
+import { Card, Avatar } from "antd"
+import { AvatarName } from "../../helpers/AvatarName"
+import axios from "axios"
 
 const Profile = ({ userData }) => {
     const [myData, setMyData] = useState({})
@@ -30,7 +30,6 @@ const Profile = ({ userData }) => {
                 <i>{myData.email}</i>
                 <br></br>
                 <br></br>
-                <Button type="primary">Edit</Button>
             </Card>
         </div>
     );

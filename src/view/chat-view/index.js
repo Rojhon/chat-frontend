@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Tabs, Badge } from "antd"
+import { Card, message, Row, Tabs, Badge } from "antd"
 import { userData } from "../../UserData"
 import { useNavigate } from "react-router-dom"
 import Chats from "./Chats"
@@ -16,7 +16,6 @@ const MainChat = () => {
     const [users, setUsers] = useState([])
 
     const [isLogin, setIsLogin] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
 
     const [socket, setSocket] = useState(null)
 
@@ -55,7 +54,6 @@ const MainChat = () => {
         });
 
         socket.on("socket:all-users", (users) => {
-            console.log(users)
             setOnlineUsers(users)
         })
 

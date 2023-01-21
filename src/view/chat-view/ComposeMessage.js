@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Tab, Table } from "antd"
+import React, { useState } from "react"
+import { Form, Input, Button, message, Table } from "antd"
 import { Editor } from "react-draft-wysiwyg";
 import { userData } from "../../UserData";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
@@ -15,7 +15,6 @@ const columns = [
 const ComponseMessage = ({ users, setOnSuccessMessage, socket }) => {
     const [form] = Form.useForm()
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
-    const [loading, setLoading] = useState(false)
 
     const onSelectChange = (newSelectedRowKeys) => {
         // console.log('selectedRowKeys changed: ', newSelectedRowKeys)

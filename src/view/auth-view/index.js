@@ -1,14 +1,10 @@
-import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Tabs, Select, TimePicker, DatePicker, } from "antd";
+import React, { useEffect } from "react"
+import { Card, Row, Tabs } from "antd"
 import SignIn from "./SignIn"
 import SignUp from "./SignUp"
-import { userData } from "../../UserData";
-import axios from "axios"
+import { userData } from "../../UserData"
 
 const MainForm = () => {
-    const onFinish = () => {
-    }
-
     useEffect(() => {
         setUserData()
     }, [])

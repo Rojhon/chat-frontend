@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Tabs, Select, TimePicker, DatePicker, Avatar } from "antd"
+import { Card, Button, Avatar } from "antd"
 import ComponseMessage from "./ComposeMessage"
 import { userData } from "../../UserData";
-import { useNavigate } from "react-router-dom"
+import { AvatarName } from "../../helpers/AvatarName";
 import Conversation from "./Conversation";
 import axios from "axios";
 
 const Chats = ({ users, socket }) => {
-    const navigate = useNavigate()
     const [conversations, setConversations] = useState([])
 
     // For Compose Message
@@ -107,14 +106,25 @@ const Chats = ({ users, socket }) => {
                             :
                             conversations.length != 0 ?
                                 conversations.map((value, i) =>
-                                    <Card style={{ cursor: "pointer", marginBottom: "1rem" }}
-                                        key={value._id}
-                                        onClick={() => goToConversation(value._id)}>
-                                        <Avatar style={{ backgroundColor: "black" }}>C</Avatar>
-                                        <span> Participants {value.participants.length}</span>
-                                        <p>{value._id}</p>
-                                        <p style={{ width: "12rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value.messages[value.messages.length - 1].content}</p>
-                                    </Card>
+                                    value.participants.length == 2 ?
+                                        <Card style={{ cursor: "pointer", marginBottom: "1rem" }}
+                                            key={value._id}
+                                            onClick={() => goToConversation(value._id)}>
+                                            <Avatar style={{ backgroundColor: "black" }}>{AvatarName(value.participants[1].full_name)}</Avatar>
+                                            <span> {value.participants[1].full_name}</span>
+                                            <p style={{ width: "12rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>message: {value.messages[value.messages.length - 1].content}</p>
+                                        </Card>
+                                        :
+                                        <Card style={{ cursor: "pointer", marginBottom: "1rem" }}
+                                            key={value._id}
+                                            onClick={() => goToConversation(value._id)}>
+                                            <Avatar.Group>
+                                                <Avatar style={{ backgroundColor: "black" }}>{AvatarName(value.participants[0].full_name)}</Avatar>
+                                                <Avatar style={{ backgroundColor: "black" }}>+{value.participants.length - 1}</Avatar>
+                                            </Avatar.Group>
+                                            <p style={{ width: "12rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value.participants[0].full_name}, ...</p>
+                                            <p style={{ width: "12rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>message: {value.messages[value.messages.length - 1].content}</p>
+                                        </Card>
                                 )
                                 :
                                 <></>

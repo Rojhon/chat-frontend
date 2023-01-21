@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, Form, Input, Button, message, Col, Row, Tabs, Select, TimePicker, DatePicker, } from "antd";
+import { Form, Input, Button, message } from "antd";
 import { userData } from "../../UserData"
 import { useNavigate } from "react-router-dom"
 import axios from "axios";
@@ -25,7 +25,6 @@ const SignIn = () => {
             const response = await axios.post("/api/users/sign-in-user", values)
             message.destroy()
             message.success(response.data.message)
-            console.log("User Id ", response.data.user_id)
             userData.user_id = response.data.user_id
             navigate("/chat")
         } catch (error) {
@@ -37,9 +36,12 @@ const SignIn = () => {
 
     return (
         <>
-            <Form form={form}>
+            <Form form={form} initialValues={{
+                email: "test@gmail.com",
+                password: "qwerty"
+            }}>
                 <Form.Item name="email" rules={[{ required: true, type: "email" }]}>
-                    <Input placeholder="email"/>
+                    <Input placeholder="email" />
                 </Form.Item>
                 <Form.Item name="password" rules={[{ required: true }]} >
                     <Input placeholder="password" type="password" />

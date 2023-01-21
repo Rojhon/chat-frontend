@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Avatar, Badge } from "antd"
+import { Card, Avatar, Badge } from "antd"
 import { AvatarName } from "../../helpers/AvatarName";
 import axios from "axios";
 
@@ -23,7 +23,6 @@ const Contacts = ({ userData, data }) => {
     const getUsers = async () => {
         try {
             const response = await axios.get(`/api/users/get-all-users/${userData.user_id}`)
-            console.log("Contacts")
             setUsers(response.data)
             setIsLoading(false)
 

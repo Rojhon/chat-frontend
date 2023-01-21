@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Popconfirm } from "antd"
+import { Card, Form, Input, Button, message, Popconfirm } from "antd"
 import { userData } from "../../UserData";
 import axios from "axios";
 
@@ -95,8 +95,6 @@ const Conversation = ({ conversationId, setOnIndex, socket }) => {
             .catch((error) => {
             })
     }
-
-
 
     return (
         <>
