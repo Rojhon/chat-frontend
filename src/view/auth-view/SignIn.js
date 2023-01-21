@@ -39,7 +39,7 @@ const SignIn = () => {
         <>
             <Form form={form}>
                 <Form.Item name="email" rules={[{ required: true, type: "email" }]}>
-                    <Input placeholder="email" rules={[{ required: true }]} />
+                    <Input placeholder="email"/>
                 </Form.Item>
                 <Form.Item name="password" rules={[{ required: true }]} >
                     <Input placeholder="password" type="password" />

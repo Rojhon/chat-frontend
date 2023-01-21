@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { Card, Form, Input, Button, message, Col, Row, Tabs, Select, TimePicker, DatePicker, } from "antd";
+import { Card, Form, Input, Button, message, Col, Row, Avatar } from "antd";
+import { AvatarName } from "../../helpers/AvatarName";
 import axios from "axios";
 
 const Profile = ({ userData }) => {
@@ -22,10 +23,16 @@ const Profile = ({ userData }) => {
     }
 
     return (
-        <Card loading={isLoading}>
-            <p>{myData.email}</p>
-            <p>{myData.full_name}</p>
-        </Card>
+        <div style={{ height: "20rem", overflow: "auto" }}>
+            <Card loading={isLoading}>
+                <Avatar size={80} style={{ backgroundColor: "black" }}>{AvatarName(myData.full_name)}</Avatar>
+                <p>{myData.full_name}</p>
+                <i>{myData.email}</i>
+                <br></br>
+                <br></br>
+                <Button type="primary">Edit</Button>
+            </Card>
+        </div>
     );
 }
 

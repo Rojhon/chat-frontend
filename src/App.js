@@ -9,8 +9,8 @@ function App() {
     <BrowserRouter>
       <div style={{ padding: "2rem" }}>
         <Routes>
-        <Route path='/' element={<MainForm/>} exact></Route>
-          <Route path='/chat' element={<MainChat/>} ></Route>
+          <Route path='/' element={<MainForm />} exact></Route>
+          <Route path='/chat' element={<MainChat />} ></Route>
         </Routes>
       </div>
     </BrowserRouter>
