@@ -89,10 +89,40 @@ const MainChat = () => {
             message.error("Already Login!")
             navigate("/")
         })
+
+        socket.on("socket:receive-conversation", (userId) => {
+            setNotifications(notifications => [{
+                name: "ID",
+                title: "New Conversation from",
+                user_id: userId
+            }, ...notifications])
+
+            setNotificationsCount(notificationsCount => notificationsCount + 1)
+        })
+
+        socket.on("socket:receive-delete-conversation", (userId) => {
+            setNotifications(notifications => [{
+                name: "ID",
+                title: "Conversation Deleted by",
+                user_id: userId
+            }, ...notifications])
+
+            setNotificationsCount(notificationsCount => notificationsCount + 1)
+        })
+
+        socket.on("socket:receive-message", (values) => {
+            setNotifications(notifications => [{
+                name: "ID",
+                title: "New Message from",
+                user_id: values.message_data.user_id._id
+            }, ...notifications])
+
+            setNotificationsCount(notificationsCount => notificationsCount + 1)
+        })
     }
 
     const handleTabs = (key) => {
-        if(key == 3){
+        if (key == 3) {
             setNotificationsCount(0)
         }
     }
@@ -110,11 +140,11 @@ const MainChat = () => {
 
     return (
         <>
-            {isLogin ? <Row justify="center" style={{width: "100%"}}>
+            {isLogin ? <Row justify="center" style={{ width: "100%" }}>
                 <Card title="Simple Chat Application">
                     <Tabs defaultActiveKey="1" onChange={handleTabs}>
                         <Tabs.TabPane tab="Chats" key="1">
-                            <Chats users={users}></Chats>
+                            <Chats users={users} socket={socket}></Chats>
                         </Tabs.TabPane>
                         <Tabs.TabPane tab="Contacts" key="2">
                             <Contacts userData={userData} data={onlineUsers}></Contacts>

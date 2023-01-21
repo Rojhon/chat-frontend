@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom"
 import Conversation from "./Conversation";
 import axios from "axios";
 
-const Chats = ({ users }) => {
+const Chats = ({ users, socket }) => {
     const navigate = useNavigate()
     const [conversations, setConversations] = useState([])
 
@@ -26,6 +26,10 @@ const Chats = ({ users }) => {
     }, [])
 
     useEffect(() => {
+        handleSocket()
+    }, [socket])
+
+    useEffect(() => {
         if (onIndex == false) {
             getConversations()
             setOnConversations(false)
@@ -38,8 +42,23 @@ const Chats = ({ users }) => {
         if (onSuccessMessage == true) {
             getConversations()
             setOnComposeMessage(false)
+            setOnSuccessMessage(false)
         }
     }, [onSuccessMessage])
+
+    const handleSocket = () => {
+        socket.on("socket:receive-conversation", (userId) => {
+            getConversations()
+        })
+
+        socket.on("socket:receive-delete-conversation", (userId) => {
+            setOnIndex(false)
+        })
+
+        socket.on("socket:receive-message", (values) => {
+            // getConversations()
+        })
+    }
 
     const handleComponseMessage = () => {
         setOnComposeMessage(!onComposeMessage)
@@ -48,7 +67,6 @@ const Chats = ({ users }) => {
     const getConversations = async () => {
         try {
             const response = await axios.get(`/api/chats/get-conversations/${userData.user_id}`)
-            console.log(response.data)
             setConversations(response.data)
             setIsloading(false)
 
@@ -68,7 +86,7 @@ const Chats = ({ users }) => {
             <div style={{ height: "20rem", overflow: "auto" }} >
                 {
                     !onConversations ?
-                        <Button type="primary" onClick={handleComponseMessage} style={{marginBottom: "1rem"}}>
+                        <Button type="primary" onClick={handleComponseMessage} style={{ marginBottom: "1rem" }}>
                             {
                                 !onComposeMessage ?
                                     <>Compose Message</>
@@ -82,7 +100,7 @@ const Chats = ({ users }) => {
 
                 {
                     (onComposeMessage) ?
-                        <ComponseMessage users={users} setOnSuccessMessage={setOnSuccessMessage}></ComponseMessage>
+                        <ComponseMessage users={users} setOnSuccessMessage={setOnSuccessMessage} socket={socket}></ComponseMessage>
                         :
                         isLoading ?
                             <Card loading={isLoading}></Card>
@@ -95,7 +113,7 @@ const Chats = ({ users }) => {
                                         <Avatar style={{ backgroundColor: "black" }}>C</Avatar>
                                         <span> Participants {value.participants.length}</span>
                                         <p>{value._id}</p>
-                                        <p>{value.messages[value.messages.length - 1].content}</p>
+                                        <p style={{ width: "12rem", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>{value.messages[value.messages.length - 1].content}</p>
                                     </Card>
                                 )
                                 :
@@ -104,7 +122,7 @@ const Chats = ({ users }) => {
 
                 {
                     onConversations ?
-                        <Conversation conversationId={conversationId} setOnIndex={setOnIndex}></Conversation>
+                        <Conversation conversationId={conversationId} setOnIndex={setOnIndex} socket={socket}></Conversation>
                         :
                         <></>
                 }

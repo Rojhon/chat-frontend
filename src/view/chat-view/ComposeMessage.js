@@ -12,7 +12,7 @@ const columns = [
     }
 ]
 
-const ComponseMessage = ({ users, setOnSuccessMessage }) => {
+const ComponseMessage = ({ users, setOnSuccessMessage, socket }) => {
     const [form] = Form.useForm()
     const [selectedRowKeys, setSelectedRowKeys] = useState([])
     const [loading, setLoading] = useState(false)
@@ -53,6 +53,7 @@ const ComponseMessage = ({ users, setOnSuccessMessage }) => {
             const response = await axios.post("/api/chats/start-conversation", values)
             message.destroy()
             message.success(response.data)
+            socket.emit("socket:start-conversation", values)
             setOnSuccessMessage(true)
         } catch (error) {
             console.log(error)
